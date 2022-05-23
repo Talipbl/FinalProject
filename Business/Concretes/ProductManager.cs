@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
-using Entities.Concrete;
+using Entities.Concretes.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +21,12 @@ namespace Business.Concrete
 
         public void Add(Product product)
         {
-            throw new NotImplementedException();
+            _iProductDal.Add(product);
         }
 
         public void Delete(Product product)
         {
-            throw new NotImplementedException();
+            _iProductDal.Delete(product);
         }
 
         public List<Product> GetAll()
@@ -36,12 +36,17 @@ namespace Business.Concrete
 
         public List<Product> GetAllByCategoryId(int categoryId)
         {
-            throw new NotImplementedException();
+            return _iProductDal.GetAll(p => p.CategoryId == categoryId);
+        }
+
+        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        {
+            return _iProductDal.GetAll(p => p.UnitPrice > min && p.UnitPrice < max);
         }
 
         public void Update(Product product)
         {
-            throw new NotImplementedException();
+            _iProductDal.Update(product);
         }
     }
 }
