@@ -14,6 +14,6 @@ namespace ConsoleUI
                 Console.WriteLine(item.ProductName);
             }
             Console.ReadKey();
-        }tirici Yetiştirme Kampı | Engin DEMİROĞ
+        }
     }
 }
