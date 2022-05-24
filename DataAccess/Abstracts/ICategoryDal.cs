@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstracts;
+﻿using Core.DataAccess;
+using DataAccess.Abstracts;
 using Entities.Concretes.Models;
 using System;
 using System.Collections.Generic;
