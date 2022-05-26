@@ -13,7 +13,6 @@ namespace Business.Abstract
         List<Product> GetAll();
         List<Product> GetAllByCategoryId(int categoryId);
         List<Product> GetByUnitPrice(decimal min, decimal max);
-
         List<ProductDetailDTO> GetProductDetails();
         void Add(Product product);
         void Delete(Product product);
