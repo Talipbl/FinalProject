@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Core.Entities;
+using Core.Utilities.Results;
+using Core.Utilities.Results.Abstracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,27 +12,27 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess.EntityFramework
 {
-    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity> 
+    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
         where TEntity : class, IEntity, new()
-        where TContext: DbContext, new()
+        where TContext : DbContext, new()
     {
-        public void BaseOperations(TEntity entity, EntityState state)
+        public IResult BaseOperation(TEntity entity, EntityState state)
         {
             using (TContext context = new TContext())
             {
                 var handledEntity = context.Entry(entity);
                 handledEntity.State = state;
-                context.SaveChanges();
+                return context.SaveChanges() > 0 ? new Result(true) : new Result(false);
             }
         }
-        public void Add(TEntity entity)
+        public IResult Add(TEntity entity)
         {
-            BaseOperations(entity, EntityState.Added);
+            return BaseOperation(entity, EntityState.Added);
         }
 
-        public void Delete(TEntity entity)
+        public IResult Delete(TEntity entity)
         {
-            BaseOperations(entity, EntityState.Deleted);
+            return BaseOperation(entity, EntityState.Deleted);
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
@@ -45,14 +47,14 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return filter == null ? context.Set<TEntity>().ToList() : 
+                return filter == null ? context.Set<TEntity>().ToList() :
                     context.Set<TEntity>().Where(filter).ToList();
             }
         }
 
-        public void Update(TEntity entity)
+        public IResult Update(TEntity entity)
         {
-            BaseOperations(entity, EntityState.Modified);
+            return BaseOperation(entity, EntityState.Modified);
         }
     }
 }
