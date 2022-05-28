@@ -1,4 +1,6 @@
-﻿using DataAccess.Abstract;
+﻿using Core.Utilities.Results;
+using Core.Utilities.Results.Abstracts;
+using DataAccess.Abstract;
 using Entities.Concretes.DTOs;
 using Entities.Concretes.Models;
 using System;
@@ -22,16 +24,18 @@ namespace DataAccess.Concrete.InMemory
                 new Product{ProductId=4, CategoryId=2, ProductName="Monitör", UnitPrice=150, UnitsInStock=1}
             };
         }
-        public void Add(Product product)
+        public IResult Add(Product product)
         {
             _products.Add(product);
+            return new SuccessResult();
         }
 
-        public void Delete(Product product)
+        public IResult Delete(Product product)
         {
             Product productToDelete = null;
             productToDelete = _products.SingleOrDefault(p=>p.ProductId==product.ProductId);
             _products.Remove(productToDelete);
+            return new SuccessResult();
         }
 
         public Product Get(Expression<Func<Product, bool>> filter)
@@ -59,13 +63,14 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
-        public void Update(Product product)
+        public IResult Update(Product product)
         {
             Product productToUpdate = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
             productToUpdate.ProductName = product.ProductName;
             productToUpdate.CategoryId = product.CategoryId;
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;
+            return new SuccessResult();
         }
     }
 }
