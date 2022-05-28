@@ -1,8 +1,8 @@
-﻿using Business.Abstract;
+﻿using Business.Abstracts;
 using Business.Constants;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstracts;
-using DataAccess.Abstract;
+using DataAccess.Abstracts;
 using DataAccess.Concrete.InMemory;
 using Entities.Concretes.DTOs;
 using Entities.Concretes.Models;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Concrete
+namespace Business.Concretes
 {
     public class ProductManager : IProductService
     {

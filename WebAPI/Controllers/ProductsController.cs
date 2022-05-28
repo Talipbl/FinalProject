@@ -1,5 +1,5 @@
-﻿using Business.Abstract;
-using Business.Concrete;
+﻿using Business.Abstracts;
+using Business.Concretes;
 using DataAccess.Concretes.EntityFrameworks;
 using Entities.Concretes.Models;
 using Microsoft.AspNetCore.Http;

@@ -1,6 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Core.Utilities.Results.Abstracts;
-using DataAccess.Abstract;
+using DataAccess.Abstracts;
 using Entities.Concretes.DTOs;
 using Entities.Concretes.Models;
 using System;
