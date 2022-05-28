@@ -14,5 +14,6 @@ namespace Business.Constants
         public static string ProcessFailed = "İşlem başarısız";
         public static string ProductDeleted = "Ürn silindi";
         public static string ProductUpdate = "Ürün güncellendi";
+        public static string CannotBeLessThanZero = "Sıfıra eşit veya küçük olamaz!";
     }
 }

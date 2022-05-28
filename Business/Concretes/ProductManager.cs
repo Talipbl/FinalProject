@@ -1,5 +1,8 @@
 ﻿using Business.Abstracts;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstracts;
 using DataAccess.Abstracts;
@@ -32,6 +35,7 @@ namespace Business.Concretes
             return new ErrorResult(Messages.ProcessFailed);
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             return BaseOperations(_iProductDal.Add(product).Success, Messages.ProductAdded);
