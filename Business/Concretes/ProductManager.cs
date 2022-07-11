@@ -1,8 +1,10 @@
 ﻿using Business.Abstracts;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstracts;
 using DataAccess.Abstracts;
@@ -20,13 +22,16 @@ namespace Business.Concretes
     public class ProductManager : IProductService
     {
         IProductDal _iProductDal;
+        ICategoryService _categoryService;
+        ILogger _logger;
 
-        public ProductManager(IProductDal ProductDal)
+        public ProductManager(IProductDal ProductDal, ICategoryService categoryService)
         {
             _iProductDal = ProductDal;
+            _categoryService = categoryService;
         }
 
-        public IResult BaseOperations(bool success, string message)
+        private IResult BaseOperations(bool success, string message)
         {
             if (success)
             {
@@ -34,10 +39,46 @@ namespace Business.Concretes
             }
             return new ErrorResult(Messages.ProcessFailed);
         }
+        private IResult CheckIfProductCountOfCategory(int categoryId)
+        {
+            int maxCount = 15;
+            var result = _iProductDal.GetAll(p => p.CategoryId == categoryId).Count();
+            if (result >= maxCount)
+            {
+                return new ErrorResult(Messages.ProcessFailed);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfProductNameExists(string productName)
+        {
+            var result = _iProductDal.GetAll(p => p.ProductName == productName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExists);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfCategoryCountOfProduct(int categoryId)
+        {
+            var result = _iProductDal.GetAll(p => p.CategoryId == categoryId);
+            if (result.Count > 15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceeded);
+            }
+            return new SuccessResult();
+        }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
+            IResult result = BusinessRules.Run(CheckIfProductNameExists(product.ProductName)
+                , CheckIfProductCountOfCategory(product.CategoryId)
+                , CheckIfCategoryCountOfProduct(product.CategoryId));
+
+            if (result != null)
+            {
+                return new ErrorResult(result.Message);
+            }
             return BaseOperations(_iProductDal.Add(product).Success, Messages.ProductAdded);
         }
 

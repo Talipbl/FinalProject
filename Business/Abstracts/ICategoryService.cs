@@ -1,14 +1,15 @@
-﻿using Entities.Concretes.Models;
+﻿using Core.Utilities.Results.Abstracts;
+using Entities.Concretes.Models;
 using System.Collections.Generic;
 
 namespace Business.Abstracts
 {
     public interface ICategoryService
     {
-        List<Category> GetAll();
-        Category Get(int id);
-        void Add(Category category);
-        void Delete(Category category);
-        void Update(Category category);
+        IDataResult<List<Category>> GetAll();
+        IDataResult<Category> Get(int id);
+        IResult Add(Category category);
+        IResult Delete(Category category);
+        IResult Update(Category category);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Business.Abstracts;
+using Business.CCS;
 using Business.Concretes;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
@@ -26,6 +27,8 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<OrderManager>().As<IOrderService>().SingleInstance();
             builder.RegisterType<EfOrderDal>().As<IOrderDal>().SingleInstance();
+
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
