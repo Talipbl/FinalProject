@@ -1,4 +1,5 @@
 ﻿using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
@@ -63,17 +64,28 @@ namespace Business.Concretes
             var result = _iProductDal.GetAll(p => p.CategoryId == categoryId);
             if (result.Count > 15)
             {
-                return new ErrorResult(Messages.CategoryLimitExceeded);
+                return new ErrorResult(Messages.CategoryLimitExceed);
             }
             return new SuccessResult();
         }
+        private IResult CheckIfCategoryLimitExceeded()
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count>15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceed);
+            }
+            return new SuccessResult(Messages.ProcessSuccessful);
+        }
 
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckIfProductNameExists(product.ProductName)
                 , CheckIfProductCountOfCategory(product.CategoryId)
-                , CheckIfCategoryCountOfProduct(product.CategoryId));
+                , CheckIfCategoryCountOfProduct(product.CategoryId)
+                , CheckIfCategoryLimitExceeded());
 
             if (result != null)
             {

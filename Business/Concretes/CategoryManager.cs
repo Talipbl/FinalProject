@@ -18,6 +18,7 @@ namespace Business.Concretes
         {
             _categoryDal = categoryDal;
         }
+
         public IResult Add(Category category)
         {
             return _categoryDal.Add(category);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace Business.Constants
         public static string ProductUpdate = "Ürün güncellendi";
         public static string CannotBeLessThanZero = "Sıfıra eşit veya küçük olamaz!";
         public static string ProductNameAlreadyExists = "Ürün adı zaten var";
-        public static string CategoryLimitExceeded = "Kategori limiti aşıldı";
+        public static string CategoryLimitExceed = "Kategori limiti aşıldı";
+        public static string ProcessSuccessful = "İşlem Başarılı";
+        public static string AuthorizationDenied = "Doğrulama Başarısız";
     }
 }

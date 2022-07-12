@@ -29,8 +29,6 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfOrderDal>().As<IOrderDal>().SingleInstance();
 
 
-
-
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
