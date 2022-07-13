@@ -1,4 +1,5 @@
-﻿using Entities.Concretes.Models;
+﻿using Core.Entities.Concretes;
+using Entities.Concretes.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace DataAccess.Concretes.EntityFrameworks
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<OperationClaim> OperationClaims { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
     }
 }
